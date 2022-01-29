@@ -29,6 +29,8 @@ jobs:
     runs-on: macos-latest
 
     steps:
+      - uses: actions/checkout@v2
+
       - name: Check codestyle
         run: make lint
 
@@ -38,6 +40,8 @@ jobs:
     runs-on: macos-latest
 
     steps:
+      - uses: actions/checkout@v2
+
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v3.0.0
         env:
