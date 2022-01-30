@@ -29,10 +29,7 @@ public class App {
 
     private static int getHerokuAssignedPort() {
         String herokuPort = System.getenv("PORT");
-        if (herokuPort != null) {
-            return Integer.parseInt(herokuPort);
-        }
-        return 7000;
+        return (herokuPort != null) ? Integer.parseInt(herokuPort) : 7000;
     }
 
 
