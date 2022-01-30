@@ -40,7 +40,6 @@ jobs:
 
 
   codecoverage:
-    needs: build
     runs-on: macos-latest
 
     steps:
