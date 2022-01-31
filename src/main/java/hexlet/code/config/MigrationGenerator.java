@@ -10,9 +10,6 @@ import java.io.IOException;
  */
 public class MigrationGenerator {
 
-    /**
-     * Generate the next "DB schema DIFF" migration.
-     */
     public static void main(String[] args) throws IOException {
 
         DbMigration dbMigration = DbMigration.create();

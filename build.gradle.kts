@@ -27,17 +27,23 @@ dependencies {
         "org.slf4j:slf4j-simple:1.7.35",
         "io.javalin:javalin:4.3.0",
         "com.fasterxml.jackson.core:jackson-databind:2.12.1",
+
         "org.postgresql:postgresql:42.3.1",
         "io.ebean:ebean-annotation:7.4",
         "io.ebean:ebean-migration:12.13.0",
         "io.ebean:ebean-ddl-generator:12.14.1",
         "org.glassfish.jaxb:jaxb-runtime:2.3.5",
-        "javax.activation:activation:1.1.1","io.ebean:ebean:12.14.1"
+        "io.ebean:ebean:12.14.1",
+
+        "org.thymeleaf:thymeleaf:3.0.12.RELEASE",
+        "nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.0.0",
+        "org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE",
+        "org.webjars:bootstrap:5.1.1",
 
     ).forEach(::implementation)
 
     listOf(
-        "rg.junit.jupiter:junit-jupiter:5.8.2"
+        "org.junit.jupiter:junit-jupiter:5.8.2"
     ).forEach(::testImplementation)
 }
 

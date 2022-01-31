@@ -17,19 +17,19 @@ public class BaseModel {
     @WhenCreated
     private Instant createdAt = Instant.now();
 
-    public UUID getId() {
+    public final  UUID getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public final void setId(UUID id) {
         this.id = id;
     }
 
-    public Instant getCreatedAt() {
+    public final Instant getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Instant createdAt) {
+    public final void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 }

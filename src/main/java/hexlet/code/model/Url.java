@@ -6,7 +6,7 @@ import javax.persistence.Entity;
  * @author andreiserov
  */
 @Entity
-public class Url extends BaseModel {
+public final class Url extends BaseModel {
     private String name;
 
     public Url(String name) {
