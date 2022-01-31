@@ -1,6 +1,7 @@
 plugins {
     id ("com.github.ben-manes.versions") version "0.39.0"
     id ("com.adarshr.test-logger") version "3.1.0"
+    id("io.ebean") version "12.14.1"
     java
     checkstyle
     jacoco
@@ -17,14 +18,27 @@ repositories {
 
 
 dependencies {
+    runtimeOnly("com.h2database:h2:2.1.210")
+
+    annotationProcessor("io.ebean:ebean-querybean:12.14.1")
+
     listOf(
         "org.jetbrains:annotations:22.0.0",
         "org.slf4j:slf4j-simple:1.7.35",
         "io.javalin:javalin:4.3.0",
-        "com.fasterxml.jackson.core:jackson-databind:2.12.4"
+        "com.fasterxml.jackson.core:jackson-databind:2.12.1",
+        "org.postgresql:postgresql:42.3.1",
+        "io.ebean:ebean-annotation:7.4",
+        "io.ebean:ebean-migration:12.13.0",
+        "io.ebean:ebean-ddl-generator:12.14.1",
+        "org.glassfish.jaxb:jaxb-runtime:2.3.5",
+        "javax.activation:activation:1.1.1","io.ebean:ebean:12.14.1"
+
     ).forEach(::implementation)
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    listOf(
+        "rg.junit.jupiter:junit-jupiter:5.8.2"
+    ).forEach(::testImplementation)
 }
 
 tasks {
@@ -56,6 +70,10 @@ tasks {
 
 }
 
+val generateMigrations by tasks.registering(JavaExec::class) {
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass.set("hexlet.code.config.MigrationGenerator")
+}
 
 val copyToLib by tasks.registering(Copy::class) {
     doLast {
