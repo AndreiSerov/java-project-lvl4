@@ -1,6 +1,6 @@
 ---
 datasource:
-  default: ${PROFILE}
+  default: ${APP_ENV}
 
   prod:
     username: ${JDBC_DATABASE_USERNAME}

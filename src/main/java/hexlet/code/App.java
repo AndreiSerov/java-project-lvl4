@@ -8,6 +8,8 @@ import hexlet.code.config.AppConfig;
 public class App {
 
     public static void main(String[] args) {
-        AppConfig.setup().start();
+        AppConfig
+            .setup()
+            .start();
     }
 }
