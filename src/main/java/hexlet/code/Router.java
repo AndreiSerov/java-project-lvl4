@@ -9,10 +9,14 @@ import io.javalin.http.Handler;
 public class Router {
 
     private static final Handler INDEX = ctx -> ctx.render("index.html");
+    private static final Handler TEST = ctx -> ctx.render("test.html");
 
     public static void register(Javalin app) {
         app
             .get("/hello", ctx -> ctx.result("Hello World"))
-            .get("/", INDEX);
+            .get("/", INDEX)
+            .get("/test", TEST)
+//            .post
+            ;
     }
 }

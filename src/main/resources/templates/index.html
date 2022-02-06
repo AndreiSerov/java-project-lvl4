@@ -1,12 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default.html}">
 
-<head th:replace="fragments/components.html :: head"></head>
-
-<body class="d-flex flex-column min-vh-100">
-<nav th:replace="fragments/components.html :: header"></nav>
-
-<main class="flex-grow-1">
+<main class="flex-grow-1" layout:fragment="content">
     <section>
         <div class="container-fluid bg-dark p-5">
             <div class="row">
@@ -33,8 +30,5 @@
     </section>
 </main>
 
-<footer th:replace="fragments/components.html :: footer"></footer>
-
-</body>
 </html>
 
