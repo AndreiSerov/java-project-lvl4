@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
 
 <head th:fragment="head">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -25,6 +28,16 @@
     </div>
   </div>
 </nav>
+
+<main th:fragment="main" class="flex-grow-1">
+  <div th:if="${session.flash}"
+       th:class="'rounded-0 m-0 alert alert-dismissible fade show alert-' + ${ctx.consumeSessionAttribute('flash-type')}"
+       role="alert">
+    <p class="m-0" th:text="${ctx.consumeSessionAttribute('flash')}"></p>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  <section layout:fragment="content"></section>
+</main>
 
 <footer th:fragment="footer" class="footer border-top py-3 mt-5 bg-light">
   <div class="container-xl">

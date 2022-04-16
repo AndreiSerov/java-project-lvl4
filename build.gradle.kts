@@ -20,7 +20,7 @@ repositories {
 dependencies {
     runtimeOnly("com.h2database:h2:2.1.210")
 
-    annotationProcessor("io.ebean:ebean-querybean:12.14.1")
+    annotationProcessor("io.ebean:querybean-generator:12.15.0")
 
     listOf(
         "org.jetbrains:annotations:22.0.0",
@@ -29,11 +29,12 @@ dependencies {
         "com.fasterxml.jackson.core:jackson-databind:2.12.1",
 
         "org.postgresql:postgresql:42.3.1",
+        "io.ebean:ebean:12.14.1",
         "io.ebean:ebean-annotation:7.4",
         "io.ebean:ebean-migration:12.13.0",
         "io.ebean:ebean-ddl-generator:12.14.1",
+        "io.ebean:ebean-querybean:12.14.1",
         "org.glassfish.jaxb:jaxb-runtime:2.3.5",
-        "io.ebean:ebean:12.14.1",
 
         "org.thymeleaf:thymeleaf:3.0.12.RELEASE",
         "nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.0.0",
@@ -49,7 +50,7 @@ dependencies {
 
 tasks {
     withType<JavaCompile> {
-        options.release.set(16)
+        options.release.set(17)
     }
 
     withType<Checkstyle>().configureEach {

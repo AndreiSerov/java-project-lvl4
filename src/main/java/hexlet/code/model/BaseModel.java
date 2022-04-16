@@ -1,5 +1,6 @@
 package hexlet.code.model;
 
+import io.ebean.Model;
 import io.ebean.annotation.WhenCreated;
 
 import javax.persistence.Id;
@@ -11,7 +12,7 @@ import java.util.UUID;
  * @author andreiserov
  */
 @MappedSuperclass
-public class BaseModel {
+public class BaseModel extends Model {
     @Id
     private UUID id = UUID.randomUUID();
     @WhenCreated

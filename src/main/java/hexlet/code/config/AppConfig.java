@@ -2,6 +2,7 @@ package hexlet.code.config;
 
 import hexlet.code.Router;
 import io.javalin.Javalin;
+import io.javalin.core.validation.JavalinValidation;
 import io.javalin.plugin.rendering.template.JavalinThymeleaf;
 import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @author andreiserov
@@ -39,6 +41,10 @@ public class AppConfig {
     public static Javalin setup() {
         Objects.requireNonNull(APP.jettyServer()).setServerPort(PORT);
         Router.register(APP);
+        JavalinValidation.register(UUID.class, UUID::fromString);
+
+        APP.before(ctx -> ctx.attribute("ctx", ctx));
+
         return APP;
     }
 
