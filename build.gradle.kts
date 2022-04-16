@@ -41,10 +41,14 @@ dependencies {
         "org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE",
         "org.webjars:bootstrap:5.1.1",
 
+        "com.konghq:unirest-java:3.11.09"
+
     ).forEach(::implementation)
 
     listOf(
-        "org.junit.jupiter:junit-jupiter:5.8.2"
+        "org.junit.jupiter:junit-jupiter:5.8.2",
+        "io.ebean:ebean-test:12.12.1",
+        "org.assertj:assertj-core:3.22.0",
     ).forEach(::testImplementation)
 }
 

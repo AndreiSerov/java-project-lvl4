@@ -2,12 +2,13 @@ package hexlet.code.controller;
 
 import hexlet.code.model.Url;
 import hexlet.code.model.query.QUrl;
-import io.javalin.core.validation.JavalinValidation;
 import io.javalin.http.Handler;
 import io.javalin.http.NotFoundResponse;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,9 +30,7 @@ public class UrlController {
         UUID id = Optional.ofNullable(ctx.pathParamAsClass("id", UUID.class).getOrDefault(null))
             .orElseThrow(NotFoundResponse::new);
 
-        Url url = new QUrl()
-            .id.eq(id)
-            .findOne();
+        Url url = Q_URL.id.eq(id).findOne();
 
         ctx.attribute("url", url);
         ctx.render("urls/url.html");
@@ -39,21 +38,22 @@ public class UrlController {
 
 
     public static final Handler CREATE_URL = ctx -> {
-        final URL formName = new URL(
-            Optional.ofNullable(ctx.formParam("url"))
-                .orElseThrow(() -> {
-                    ctx.sessionAttribute("flash", "Некорректно указан URL");
-                    ctx.sessionAttribute("flash-type", "danger");
-                    ctx.redirect("/");
+        final URL formName;
+        try {
+            formName = new URL(Objects.requireNonNull(ctx.formParam("url")));
+        } catch (MalformedURLException | NullPointerException e) {
+            ctx.sessionAttribute("flash", "Некорректно указан URL");
+            ctx.sessionAttribute("flash-type", "danger");
+            ctx.redirect("/");
 
-                    return new RuntimeException("url name shouldn't be null");
-                })
-        );
+            throw new RuntimeException("url name doesn't match pattern or null");
+        }
 
         final Url url = new Url(formName.getProtocol() + "://" + formName.getAuthority());
 
         try {
             url.save();
+
             ctx.sessionAttribute("flash", "Страница успешно добавлена");
             ctx.sessionAttribute("flash-type", "success");
         } catch (Exception e) {
