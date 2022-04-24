@@ -1,8 +1,8 @@
 package hexlet.code;
 
 import hexlet.code.config.AppConfig;
-import hexlet.code.model.Url;
-import hexlet.code.model.query.QUrl;
+import hexlet.code.domain.Url;
+import hexlet.code.domain.query.QUrl;
 import io.ebean.DB;
 import io.ebean.Transaction;
 import io.javalin.Javalin;

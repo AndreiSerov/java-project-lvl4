@@ -1,4 +1,4 @@
-package hexlet.code.model;
+package hexlet.code.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;

@@ -1,5 +1,6 @@
-package hexlet.code.model;
+package hexlet.code.domain;
 
+import hexlet.code.domain.finder.UrlFinder;
 import io.ebean.annotation.Index;
 import io.ebean.annotation.Platform;
 
@@ -20,6 +21,8 @@ public final class Url extends BaseModel {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<UrlCheck> checks;
+
+    public static final UrlFinder find = new UrlFinder();
 
     public Url(String name) {
         super();
