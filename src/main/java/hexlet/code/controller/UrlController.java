@@ -1,10 +1,16 @@
 package hexlet.code.controller;
 
 import hexlet.code.model.Url;
+import hexlet.code.model.UrlCheck;
 import hexlet.code.model.query.QUrl;
+import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import io.javalin.http.NotFoundResponse;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
+import kong.unirest.UnirestException;
 
+import javax.persistence.EntityNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -27,8 +33,7 @@ public class UrlController {
 
     public static final Handler GET_URL_BY_ID = ctx -> {
 
-        UUID id = Optional.ofNullable(ctx.pathParamAsClass("id", UUID.class).getOrDefault(null))
-            .orElseThrow(NotFoundResponse::new);
+        UUID id = getId(ctx);
 
         Url url = Q_URL.id.eq(id).findOne();
 
@@ -64,4 +69,35 @@ public class UrlController {
 
         ctx.redirect("/urls");
     };
+
+    public static final Handler CHECK_URL = ctx -> {
+        UUID id = getId(ctx);
+        Url url = Optional.ofNullable(Q_URL.id.eq(id).findOne())
+            .orElseThrow(EntityNotFoundException::new);
+
+        try {
+            HttpResponse<String> response = Unirest.get(url.getName()).asString();
+
+            final UrlCheck urlCheck = new UrlCheck.Builder()
+                .statusCode(response.getStatus())
+                .url(url)
+                .build();
+
+            urlCheck.save();
+
+            ctx.sessionAttribute("flash", "Страница успешно проверена");
+            ctx.sessionAttribute("flash-type", "success");
+
+        } catch (UnirestException ex) {
+            ctx.sessionAttribute("flash", "Не удалось проверить страницу");
+            ctx.sessionAttribute("flash-type", "danger");
+        }
+
+        ctx.redirect("/urls/" + id);
+    };
+
+    private static UUID getId(Context ctx) {
+        return Optional.ofNullable(ctx.pathParamAsClass("id", UUID.class).getOrDefault(null))
+            .orElseThrow(NotFoundResponse::new);
+    }
 }
