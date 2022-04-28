@@ -22,12 +22,12 @@ public final class Url extends BaseModel {
     @OneToMany(cascade = CascadeType.ALL)
     private List<UrlCheck> checks;
 
-    public static final UrlFinder find = new UrlFinder();
-
     public Url(String name) {
         super();
         this.name = name;
     }
+
+    public static final UrlFinder FIND = new UrlFinder();
 
     public List<UrlCheck> getChecks() {
         return checks;

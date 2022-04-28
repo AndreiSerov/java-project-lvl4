@@ -106,5 +106,21 @@ class AppTest {
             assertThat(response.getBody()).contains("Страница успешно добавлена");
             assertThat(new QUrl().name.eq(STUB_URL)).isNotNull();
         }
+
+        @Test
+        void testCheckUrl() {
+            var postResponse = Unirest
+                .post(baseUrl + "/urls/" + exampleUrl.getId() + "/checks")
+                .field("url", STUB_URL)
+                .asEmpty();
+
+            assertThat(postResponse.getStatus()).isEqualTo(302);
+
+            var response = Unirest.get(urlsUrl).asString();
+
+            assertThat(response.getStatus()).isEqualTo(200);
+            assertThat(response.getBody()).contains("Страница успешно добавлена");
+            assertThat(new QUrl().name.eq(STUB_URL)).isNotNull();
+        }
     }
 }

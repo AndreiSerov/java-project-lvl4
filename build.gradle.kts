@@ -1,6 +1,6 @@
 plugins {
-    id ("com.github.ben-manes.versions") version "0.39.0"
-    id ("com.adarshr.test-logger") version "3.1.0"
+    id("com.github.ben-manes.versions") version "0.39.0"
+    id("com.adarshr.test-logger") version "3.1.0"
     id("io.ebean") version "12.14.1"
     java
     checkstyle
@@ -41,8 +41,8 @@ dependencies {
         "org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE",
         "org.webjars:bootstrap:5.1.1",
 
-        "com.konghq:unirest-java:3.11.09"
-
+        "com.konghq:unirest-java:3.11.09",
+        "org.jsoup:jsoup:1.14.3",
     ).forEach(::implementation)
 
     listOf(

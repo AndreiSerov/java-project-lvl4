@@ -54,7 +54,7 @@ public final  class UrlCheck extends BaseModel {
     }
 
 
-    public static class Builder {
+    public static final class Builder {
 
         private Integer statusCode;
         private String title;
