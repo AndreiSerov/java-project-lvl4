@@ -142,14 +142,6 @@ class AppTest {
             assertThat(response.getStatus()).isEqualTo(200);
             assertThat(response.getBody()).contains("Страница успешно проверена");
             assertThat(new QUrl().name.eq(STUB_URL)).isNotNull();
-
-            Unirest
-                .post(baseUrl + "/urls/" + exampleUrl.getId() + "/checks")
-                .field("url", "NOT URL")
-                .asEmpty();
-
-            assertThat(Unirest.get(urlsUrl).asString().getBody()).contains("Не удалось проверить страницу");
-
         }
     }
 }
