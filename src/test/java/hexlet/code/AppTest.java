@@ -119,7 +119,7 @@ class AppTest {
             var response = Unirest.get(urlsUrl).asString();
 
             assertThat(response.getStatus()).isEqualTo(200);
-            assertThat(response.getBody()).contains("Страница успешно добавлена");
+            assertThat(response.getBody()).contains("Страница успешно проверена");
             assertThat(new QUrl().name.eq(STUB_URL)).isNotNull();
         }
     }
