@@ -53,6 +53,13 @@ dependencies {
 }
 
 tasks {
+
+    create("stage").dependsOn("build", "installDist")
+
+    installDist {
+        mustRunAfter(clean)
+    }
+
     withType<JavaCompile> {
         options.release.set(17)
     }
@@ -86,30 +93,27 @@ val generateMigrations by tasks.registering(JavaExec::class) {
     mainClass.set("hexlet.code.config.MigrationGenerator")
 }
 
-val copyToLib by tasks.registering(Copy::class) {
-    doLast {
-        from(configurations.implementation)
-        into("$buildDir/libs")
-    }
-}
-
-val stage by tasks.registering {
-    dependsOn("build")
-    dependsOn(copyToLib)
-}
+//val copyToLib by tasks.registering(Copy::class) {
+//    doLast {
+//        from(configurations.implementation)
+//        into("$buildDir/libs")
+//    }
+//}
 
 
-val jar by tasks.getting(Jar::class) {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
-    manifest {
-        attributes["Main-Class"] = "hexlet.code.App"
-    }
 
-    configurations["compileClasspath"].forEach { file: File ->
-        from(zipTree(file.absoluteFile))
-    }
-}
+//val jar by tasks.getting(Jar::class) {
+//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+//
+//    manifest {
+//        attributes["Main-Class"] = "hexlet.code.App"
+//    }
+//
+//    configurations["compileClasspath"].forEach { file: File ->
+//        from(zipTree(file.absoluteFile))
+//    }
+//}
 
 
 application {
