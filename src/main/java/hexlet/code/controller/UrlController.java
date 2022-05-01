@@ -51,7 +51,7 @@ public class UrlController {
             ctx.sessionAttribute("flash-type", "danger");
             ctx.redirect("/");
 
-            throw new RuntimeException("url name doesn't match pattern or null");
+            throw new Exception("url name doesn't match pattern or null");
         }
 
         final Url url = new Url(formName.getProtocol() + "://" + formName.getAuthority());

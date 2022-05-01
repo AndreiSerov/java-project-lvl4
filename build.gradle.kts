@@ -93,29 +93,6 @@ val generateMigrations by tasks.registering(JavaExec::class) {
     mainClass.set("hexlet.code.config.MigrationGenerator")
 }
 
-//val copyToLib by tasks.registering(Copy::class) {
-//    doLast {
-//        from(configurations.implementation)
-//        into("$buildDir/libs")
-//    }
-//}
-
-
-
-
-//val jar by tasks.getting(Jar::class) {
-//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-//
-//    manifest {
-//        attributes["Main-Class"] = "hexlet.code.App"
-//    }
-//
-//    configurations["compileClasspath"].forEach { file: File ->
-//        from(zipTree(file.absoluteFile))
-//    }
-//}
-
-
 application {
     mainClass.set("hexlet.code.App")
 }

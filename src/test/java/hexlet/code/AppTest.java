@@ -105,6 +105,27 @@ class AppTest {
             assertThat(response.getStatus()).isEqualTo(200);
             assertThat(response.getBody()).contains("Страница успешно добавлена");
             assertThat(new QUrl().name.eq(STUB_URL)).isNotNull();
+
+            Unirest
+                .post(baseUrl + "/urls")
+                .field("url", STUB_URL)
+                .asEmpty();
+
+            response = Unirest.get(urlsUrl).asString();
+            assertThat(response.getBody()).contains("Страница уже существует");
+        }
+
+        @Test
+        void testAddUrlwhenInvalidUrl() {
+            Unirest
+                .post(baseUrl + "/urls")
+                .field("url", "INVALID_URL")
+                .asEmpty();
+
+            var response = Unirest.get(urlsUrl).asString();
+
+            assertThat(response.getStatus()).isEqualTo(200);
+            assertThat(response.getBody()).contains("Некорректно указан URL");
         }
 
         @Test
@@ -121,6 +142,14 @@ class AppTest {
             assertThat(response.getStatus()).isEqualTo(200);
             assertThat(response.getBody()).contains("Страница успешно проверена");
             assertThat(new QUrl().name.eq(STUB_URL)).isNotNull();
+
+            Unirest
+                .post(baseUrl + "/urls/" + exampleUrl.getId() + "/checks")
+                .field("url", "NOT URL")
+                .asEmpty();
+
+            assertThat(Unirest.get(urlsUrl).asString().getBody()).contains("Не удалось проверить страницу");
+
         }
     }
 }
