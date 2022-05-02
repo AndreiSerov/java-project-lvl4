@@ -14,7 +14,7 @@ public final class UrlFinder extends Finder<UUID, Url> {
     public PagedList<Url> getPage(int pageNumber) {
         return query()
             .order("created_at")
-            .setFirstRow(pageNumber * 12 + 1) // 10 being 1 * maxRows
+            .setFirstRow(pageNumber * 12) // 10 being 1 * maxRows
             .setMaxRows(12)
             .findPagedList();
     }
