@@ -17,7 +17,6 @@ import org.jsoup.nodes.Element;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
@@ -111,8 +110,8 @@ public class UrlController {
         return Optional.ofNullable(document.selectFirst(elem)).map(mapTo).orElse(null);
     }
 
-    private static UUID getId(Context ctx) {
-        return Optional.ofNullable(ctx.pathParamAsClass("id", UUID.class).getOrDefault(null))
+    private static Long getId(Context ctx) {
+        return Optional.ofNullable(ctx.pathParamAsClass("id", Long.class).getOrDefault(null))
             .orElseThrow(NotFoundResponse::new);
     }
 }

@@ -6,7 +6,6 @@ import io.ebean.annotation.WhenCreated;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.time.Instant;
-import java.util.UUID;
 
 /**
  * @author andreiserov
@@ -14,15 +13,16 @@ import java.util.UUID;
 @MappedSuperclass
 public class BaseModel extends Model {
     @Id
-    private UUID id = UUID.randomUUID();
+    private Long id;
+
     @WhenCreated
     private Instant createdAt = Instant.now();
 
-    public final  UUID getId() {
+    public final Long getId() {
         return id;
     }
 
-    public final void setId(UUID id) {
+    public final void setId(Long id) {
         this.id = id;
     }
 

@@ -4,12 +4,10 @@ import hexlet.code.domain.Url;
 import io.ebean.Finder;
 import io.ebean.PagedList;
 
-import java.util.UUID;
-
 /**
  * @author andreiserov
  */
-public final class UrlFinder extends Finder<UUID, Url> {
+public final class UrlFinder extends Finder<Long, Url> {
 
     public PagedList<Url> getPage(int pageNumber) {
         return query()
