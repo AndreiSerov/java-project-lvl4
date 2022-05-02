@@ -2,6 +2,7 @@ package hexlet.code.controller;
 
 import hexlet.code.domain.Url;
 import hexlet.code.domain.UrlCheck;
+import io.ebean.PagedList;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import io.javalin.http.NotFoundResponse;
@@ -15,10 +16,10 @@ import org.jsoup.nodes.Element;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.stream.IntStream;
 
 import static java.util.Objects.requireNonNull;
 
@@ -28,9 +29,13 @@ import static java.util.Objects.requireNonNull;
 public class UrlController {
 
     public static final Handler GET_URLS = ctx -> {
-        List<Url> urls = Url.FIND.all();
+        final int pageNumber = ctx.queryParamAsClass("page", Integer.class).getOrDefault(1);
 
-        ctx.attribute("urls", urls);
+        PagedList<Url> urls = Url.FIND.getPage(pageNumber - 1);
+
+        ctx.attribute("urls", urls.getList());
+        ctx.attribute("currentPage", pageNumber);
+        ctx.attribute("pages", IntStream.range(1, urls.getTotalPageCount() + 1).toArray());
         ctx.render("urls/urls.html");
     };
 

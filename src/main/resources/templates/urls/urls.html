@@ -18,9 +18,27 @@
                 <td>
                     <a th:text="*{name}" th:href="@{/urls/{id}(id=*{id})}"></a>
                 </td>
+                <td th:if="${url.checks.isEmpty}"></td>
+                <td th:if="${url.checks.isEmpty}"></td>
+                <td th:unless="${url.checks.isEmpty}" th:text="${#temporals.format(url.checks.get(0).createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+                <td th:unless="${url.checks.isEmpty}" th:text="*{checks.get(0).statusCode}"></td>
             </tr>
             </tbody>
         </table>
+
+        <nav aria-label="Page navigation" th:if="${#arrays.length(pages)}">
+            <ul class="pagination justify-content-center mt-5">
+                <li th:class="'page-item' + ${currentPage <= 1 ? ' disabled' : ''}">
+                    <a class="page-link" th:href="@{/urls(page=${currentPage - 1})}">Previous</a>
+                </li>
+                <li th:each="page : ${pages}" th:class="'page-item' + ${currentPage == page ? ' active' : ''}">
+                    <a class="page-link" th:href="@{/urls(page=${page})}" th:text="${page}"></a>
+                </li>
+                <li th:class="'page-item' + ${currentPage >= #arrays.length(pages) ? ' disabled' : ''}">
+                    <a class="page-link" th:href="@{/urls(page=${currentPage + 1})}">Next</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </section>
 </html>
