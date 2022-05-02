@@ -1,6 +1,7 @@
 package hexlet.code;
 
 import hexlet.code.config.AppConfig;
+import io.javalin.Javalin;
 
 /**
  * @author andreiserov
@@ -8,8 +9,10 @@ import hexlet.code.config.AppConfig;
 public class App {
 
     public static void main(String[] args) {
-        AppConfig
-            .setup()
-            .start();
+        getApp().start();
+    }
+
+    public static Javalin getApp() {
+        return AppConfig.setup();
     }
 }
