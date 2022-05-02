@@ -1,37 +1,18 @@
 package hexlet.code;
 
+import hexlet.code.config.AppConfig;
 import io.javalin.Javalin;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author andreiserov
  */
 public class App {
 
-    private static final Logger LOG = LoggerFactory.getLogger(App.class);
-
     public static void main(String[] args) {
-        Javalin app = getApp();
-        app.get("/", ctx -> ctx.result("Hello World"))
-            .start(getHerokuAssignedPort());
+        getApp().start();
     }
 
-    private static Javalin getApp() {
-        return Javalin.create(config -> {
-            config.enableDevLogging();
-            config.requestLogger((ctx, ms) -> {
-                LOG.info("Incoming request body is: {}.", ctx.body());
-                LOG.info("Request processed in {} ms.", ms);
-            });
-        });
+    public static Javalin getApp() {
+        return AppConfig.setup();
     }
-
-    private static int getHerokuAssignedPort() {
-        String herokuPort = System.getenv("PORT");
-        return (herokuPort != null) ? Integer.parseInt(herokuPort) : 7000;
-    }
-
-
-
 }
