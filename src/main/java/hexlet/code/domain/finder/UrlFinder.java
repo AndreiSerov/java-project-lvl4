@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * @author andreiserov
  */
-public class UrlFinder extends Finder<UUID, Url> {
+public final class UrlFinder extends Finder<UUID, Url> {
 
     public PagedList<Url> getPage(int pageNumber) {
         return query()
