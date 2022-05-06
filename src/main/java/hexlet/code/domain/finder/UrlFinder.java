@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * @author andreiserov
  */
 public final class UrlFinder extends Finder<Long, Url> {
-    final QUrlCheck check = QUrlCheck.alias();
+    private final QUrlCheck check = QUrlCheck.alias();
 
     public PagedList<Url> getPage(int pageNumber) {
         return new QUrl()
