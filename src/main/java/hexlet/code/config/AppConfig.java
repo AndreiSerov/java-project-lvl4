@@ -35,8 +35,8 @@ public class AppConfig {
             LOG.info("Incoming request body is: {}.", ctx.body());
             LOG.info("Request processed in {} ms.", ms);
         });
-    });
-
+    })
+        .exception(Exception.class, (e, ctx) -> LOG.error(e.getMessage(), e));
 
     public static Javalin setup() {
         Objects.requireNonNull(APP.jettyServer()).setServerPort(PORT);

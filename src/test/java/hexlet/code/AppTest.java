@@ -2,17 +2,21 @@ package hexlet.code;
 
 import hexlet.code.config.AppConfig;
 import hexlet.code.domain.Url;
-import hexlet.code.domain.query.QUrl;
 import io.ebean.DB;
 import io.ebean.Transaction;
 import io.javalin.Javalin;
+import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -25,19 +29,25 @@ class AppTest {
     private static Url exampleUrl;
     private static Transaction transaction;
 
+    private static MockWebServer mockWebServer;
+
 
     private static final String STUB_URL = "https://hexlet.io";
 
     @BeforeAll
-    public static void beforeAll() {
+    public static void beforeAll() throws IOException {
         app = AppConfig.setup().start(0);
 
         int port = app.port();
         baseUrl = "http://localhost:" + port;
         urlsUrl = baseUrl + "/urls/";
 
-        exampleUrl = new Url("https://www.example.com");
+        exampleUrl = new Url("https://www.kalia-balia.com");
         exampleUrl.save();
+
+        mockWebServer = new MockWebServer();
+        mockWebServer.enqueue(new MockResponse().setBody("MOCK RESPONSE"));
+        mockWebServer.start();
     }
 
     @AfterAll
@@ -75,7 +85,7 @@ class AppTest {
 
         @Test
         void testUrlList() {
-            var response = Unirest.get(baseUrl).asString();
+            var response = Unirest.get(baseUrl + "/urls").asString();
 
             assertThat(response.getStatus()).isEqualTo(200);
             assertThat(response.getBody()).contains(exampleUrl.getName());
@@ -93,10 +103,7 @@ class AppTest {
 
         @Test
         void testAddUrl() {
-            var postResponse = Unirest
-                .post(baseUrl + "/urls")
-                .field("url", STUB_URL)
-                .asEmpty();
+            var postResponse = postUrl(baseUrl + "/urls", STUB_URL);
 
             assertThat(postResponse.getStatus()).isEqualTo(302);
 
@@ -104,12 +111,9 @@ class AppTest {
 
             assertThat(response.getStatus()).isEqualTo(200);
             assertThat(response.getBody()).contains("Страница успешно добавлена");
-            assertThat(new QUrl().name.eq(STUB_URL)).isNotNull();
+            assertThat(Url.FIND.byName(STUB_URL).getId()).isNotNull();
 
-            Unirest
-                .post(baseUrl + "/urls")
-                .field("url", STUB_URL)
-                .asEmpty();
+            postUrl(baseUrl + "/urls", STUB_URL);
 
             response = Unirest.get(urlsUrl).asString();
             assertThat(response.getBody()).contains("Страница уже существует");
@@ -117,10 +121,7 @@ class AppTest {
 
         @Test
         void testAddUrlwhenInvalidUrl() {
-            Unirest
-                .post(baseUrl + "/urls")
-                .field("url", "INVALID_URL")
-                .asEmpty();
+            postUrl(baseUrl + "/urls", "INVALID_URL");
 
             var response = Unirest.get(urlsUrl).asString();
 
@@ -130,10 +131,12 @@ class AppTest {
 
         @Test
         void testCheckUrl() {
-            var postResponse = Unirest
-                .post(baseUrl + "/urls/" + exampleUrl.getId() + "/checks")
-                .field("url", STUB_URL)
-                .asEmpty();
+
+            String urlForCheck = mockWebServer.url("").toString();
+            urlForCheck = urlForCheck.substring(0, urlForCheck.length() - 1);
+            postUrl(baseUrl + "/urls", urlForCheck);
+
+            var postResponse = postUrl(baseUrl + "/urls/" + Url.FIND.byName(urlForCheck).getId() + "/checks", STUB_URL);
 
             assertThat(postResponse.getStatus()).isEqualTo(302);
 
@@ -141,7 +144,14 @@ class AppTest {
 
             assertThat(response.getStatus()).isEqualTo(200);
             assertThat(response.getBody()).contains("Страница успешно проверена");
-            assertThat(new QUrl().name.eq(STUB_URL)).isNotNull();
         }
+    }
+
+    @SuppressWarnings("rawtypes")
+    private HttpResponse postUrl(String baseUrl, String stubUrl) {
+        return Unirest
+            .post(baseUrl)
+            .field("url", stubUrl)
+            .asEmpty();
     }
 }

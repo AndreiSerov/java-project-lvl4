@@ -17,6 +17,10 @@ public final class UrlFinder extends Finder<Long, Url> {
             .findPagedList();
     }
 
+    public Url byName(String name) {
+        return query().where().eq("name", name).findOne();
+    }
+
     public UrlFinder() {
         super(Url.class);
     }

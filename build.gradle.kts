@@ -18,7 +18,7 @@ repositories {
 
 
 dependencies {
-    runtimeOnly("com.h2database:h2:2.1.210")
+    runtimeOnly("com.h2database:h2:2.1.212")
 
     annotationProcessor("io.ebean:querybean-generator:12.15.0")
 
@@ -49,6 +49,7 @@ dependencies {
         "org.junit.jupiter:junit-jupiter:5.8.2",
         "io.ebean:ebean-test:12.12.1",
         "org.assertj:assertj-core:3.22.0",
+        "com.squareup.okhttp3:mockwebserver:4.9.3",
     ).forEach(::testImplementation)
 }
 
